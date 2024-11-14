@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temptation Token</title>
+
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.159.0/three.min.js"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .card {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- UI Content -->
+    <div class="content">
+        <header class="p-4 flex justify-between items-center bg-pink-200 bg-opacity-70 backdrop-blur-[2px]">
+            <h1 class="text-2xl font-bold text-pink-400">Temptation Token</h1>
+            <nav>
+                <button class="text-white hover:text-pink-400 mr-2">About</button>
+                <button class="text-white hover:text-pink-400 mr-2">Vote</button>
+                <button class="text-white hover:text-pink-400">Leaderboard</button>
+            </nav>
+        </header>
+
+        <section class="text-center py-20 px-4 bg-black bg-opacity-30 backdrop-blur-md">
+            <h2
+                class="text-6xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-500">
+                Beauty Meets Blockchain
+            </h2>
+            <p class="text-xl mb-8 text-white">Vote. Earn. Tempt.</p>
+            <button
+                class="bg-gradient-to-r from-pink-400 to-purple-500 hover:from-pink-500 hover:to-purple-600 text-white text-lg py-2 px-6 rounded-full">
+                Start Voting
+            </button>
+        </section>
+
+        <!-- Info Cards Section -->
+        <section class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 p-8">
+            <!-- Weekly Contest Card -->
+            <div class="card bg-black bg-opacity-70 border border-gray-700 rounded-xl p-6 backdrop-blur-md">
+                <div class="text-pink-400 text-2xl font-bold mb-4">Weekly Contest</div>
+                <p class="text-white text-lg mb-4">
+                    Vote for your favorite contestant in our weekly beauty pageant. New faces every week!
+                </p>
+                <div class="text-gray-300">
+                    <div class="flex items-center mb-2">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                            <path fill-rule="evenodd"
+                                d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        Live voting system
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earn Tokens Card -->
+            <div class="card bg-black bg-opacity-70 border border-gray-700 rounded-xl p-6 backdrop-blur-md">
+                <div class="text-purple-400 text-2xl font-bold mb-4">Earn Tokens</div>
+                <p class="text-white text-lg mb-4">
+                    Participate in voting and earn Temptation Tokens. The more you engage, the more you earn!
+                </p>
+                <div class="text-gray-300">
+                    <div class="flex items-center mb-2">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
+                            <path fill-rule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        Reward system
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exclusive Content Card -->
+            <div class="card bg-black bg-opacity-70 border border-gray-700 rounded-xl p-6 backdrop-blur-md">
+                <div class="text-pink-400 text-2xl font-bold mb-4">Exclusive Content</div>
+                <p class="text-white text-lg mb-4">
+                    Use your Temptation Tokens to unlock exclusive content from your favorite contestants.
+                </p>
+                <div class="text-gray-300">
+                    <div class="flex items-center mb-2">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        Premium access
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Set up scene
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.body.appendChild(renderer.domElement);
+
+        // Create torus
+        const geometry = new THREE.TorusGeometry(2, 0.5, 16, 100);
+        const material = new THREE.MeshStandardMaterial({
+            color: '#ff69b4',
+            metalness: 0.8,
+            roughness: 0.2
+        });
+        const torus = new THREE.Mesh(geometry, material);
+        scene.add(torus);
+
+        // Add grid
+        const gridHelper = new THREE.GridHelper(30, 30, '#ff69b4', '#ff69b4');
+        scene.add(gridHelper);
+
+        // Add vertical grid
+        const verticalGrid = new THREE.GridHelper(30, 30, '#ff69b4', '#ff69b4');
+        verticalGrid.rotation.x = Math.PI / 2;
+        scene.add(verticalGrid);
+
+        // Add particles
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 5000;
+        const posArray = new Float32Array(particlesCount * 3);
+
+        for (let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 50;
+        }
+
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.005,
+            color: '#ff69b4'
+        });
+
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+
+        // Add lights
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+
+        const pointLight = new THREE.PointLight(0xffffff, 1);
+        pointLight.position.set(10, 10, 10);
+        scene.add(pointLight);
+
+        // Position camera
+        camera.position.z = 15;
+        camera.position.y = 5;
+        camera.rotation.x = -0.2;
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Rotate torus
+            torus.rotation.x += 0.01;
+            torus.rotation.y += 0.005;
+
+            // Rotate grids slowly
+            gridHelper.rotation.z += 0.001;
+            verticalGrid.rotation.z += 0.001;
+
+            // Rotate particles
+            particlesMesh.rotation.y += 0.0005;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Handle resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Optional: Add mouse movement effect
+        document.addEventListener('mousemove', (event) => {
+            const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+            const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+
+            camera.position.x = mouseX * 2;
+            camera.position.y = 5 + mouseY * 2;
+            camera.lookAt(0, 0, 0);
+        });
+    </script>
+</body>
+
+</html>
