@@ -39,6 +39,10 @@
         .card:hover {
             transform: translateY(-5px);
         }
+
+        #connectWallet.connected {
+            background: linear-gradient(to right, #10B981, #059669);
+        }
     </style>
 </head>
 
@@ -49,8 +53,13 @@
             <h1 class="text-2xl font-bold text-pink-400">Temptation Token</h1>
             <nav>
                 <button class="text-white hover:text-pink-400 mr-2">About</button>
-                <button class="text-white hover:text-pink-400 mr-2">Vote</button>
-                <button class="text-white hover:text-pink-400">Leaderboard</button>
+                <button onclick="window.location.href='vote.html'"
+                    class="text-white hover:text-pink-400 mr-2">Vote</button>
+                <button class="text-white hover:text-pink-400 mr-2">Leaderboard</button>
+                <button id="connectWallet" onclick="connectWallet()"
+                    class="bg-gradient-to-r from-pink-400 to-purple-500 px-4 py-2 rounded-full text-white hover:from-pink-500 hover:to-purple-600">
+                    Connect Wallet
+                </button>
             </nav>
         </header>
 
@@ -60,7 +69,7 @@
                 Beauty Meets Blockchain
             </h2>
             <p class="text-xl mb-8 text-white">Vote. Earn. Tempt.</p>
-            <button
+            <button onclick="window.location.href='vote.html'"
                 class="bg-gradient-to-r from-pink-400 to-purple-500 hover:from-pink-500 hover:to-purple-600 text-white text-lg py-2 px-6 rounded-full">
                 Start Voting
             </button>
@@ -223,6 +232,94 @@
             camera.position.y = 5 + mouseY * 2;
             camera.lookAt(0, 0, 0);
         });
+
+        async function connectWallet() {
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    // Request account access
+                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    const account = accounts[0];
+
+                    // Update button text to show connected address
+                    const button = document.getElementById('connectWallet');
+                    button.innerHTML = account.slice(0, 6) + '...' + account.slice(-4);
+
+                    // Add connected class
+                    button.classList.add('connected');
+
+                    console.log('Connected to wallet:', account);
+                } catch (error) {
+                    console.error('Error connecting to MetaMask:', error);
+                    alert('Error connecting to MetaMask. Please make sure it is installed and unlocked.');
+                }
+            } else {
+                alert('Please install MetaMask to use this feature!');
+                window.open('https://metamask.io/download.html', '_blank');
+            }
+        }
+
+        // Check if already connected
+        window.addEventListener('load', async () => {
+            if (typeof window.ethereum !== 'undefined') {
+                const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+                if (accounts.length > 0) {
+                    const button = document.getElementById('connectWallet');
+                    button.innerHTML = accounts[0].slice(0, 6) + '...' + accounts[0].slice(-4);
+                    button.classList.add('connected');
+                }
+            }
+        });
+
+        const POLYGON_NETWORK = {
+            chainId: '0x89',  // 137 in hex
+            chainName: 'Polygon Mainnet',
+            nativeCurrency: {
+                name: 'MATIC',
+                symbol: 'MATIC',
+                decimals: 18
+            },
+            rpcUrls: ['https://polygon-rpc.com/'],
+            blockExplorerUrls: ['https://polygonscan.com/']
+        };
+
+        async function connectToPolygon() {
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    // First try to switch to Polygon network
+                    try {
+                        await window.ethereum.request({
+                            method: 'wallet_switchEthereumChain',
+                            params: [{ chainId: POLYGON_NETWORK.chainId }],
+                        });
+                    } catch (switchError) {
+                        // If Polygon network isn't added to MetaMask, add it
+                        if (switchError.code === 4902) {
+                            await window.ethereum.request({
+                                method: 'wallet_addEthereumChain',
+                                params: [POLYGON_NETWORK],
+                            });
+                        }
+                    }
+
+                    // Now connect the wallet
+                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    const account = accounts[0];
+
+                    // Update button
+                    const button = document.getElementById('connectWallet');
+                    button.innerHTML = `Connected: ${account.slice(0, 6)}...${account.slice(-4)}`;
+                    button.classList.add('connected');
+
+                    console.log('Connected to Polygon with account:', account);
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Error connecting to Polygon. Make sure MetaMask is installed and unlocked.');
+                }
+            } else {
+                alert('Please install MetaMask to use this feature!');
+                window.open('https://metamask.io/download.html', '_blank');
+            }
+        }
     </script>
 </body>
 

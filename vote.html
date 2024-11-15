@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vote - Temptation Token</title>
+
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.159.0/three.min.js"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .card {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- UI Content -->
+    <div class="content">
+        <header class="p-4 flex justify-between items-center bg-black bg-opacity-70 backdrop-blur-[2px]">
+            <h1 class="text-2xl font-bold text-pink-400">Temptation Token</h1>
+            <nav>
+                <button class="text-white hover:text-pink-400 mr-2">About</button>
+                <button onclick="window.location.href='vote.html'"
+                    class="text-white hover:text-pink-400 mr-2">Vote</button>
+                <button class="text-white hover:text-pink-400">Leaderboard</button>
+            </nav>
+        </header>
+
+        <!-- Voting Section -->
+        <section class="max-w-4xl mx-auto p-8">
+            <div class="card bg-black bg-opacity-70 border border-gray-700 rounded-xl p-6 backdrop-blur-md">
+                <div class="text-center mb-6">
+                    <h2 class="text-3xl font-bold text-pink-400 mb-2">Current Contestant</h2>
+                    <p class="text-gray-300">Vote Hot or Not!</p>
+                </div>
+
+                <!-- Image Container -->
+                <div class="relative aspect-square mb-6 rounded-xl overflow-hidden">
+                    <img src="https://via.placeholder.com/800x800" alt="Contestant" class="w-full h-full object-cover">
+                </div>
+
+                <!-- Voting Buttons -->
+                <div class="flex justify-center gap-4">
+                    <button class="bg-gradient-to-r from-green-400 to-green-500 hover:from-green-500 hover:to-green-600 
+                        text-white text-lg py-3 px-8 rounded-full flex items-center">
+                        <span class="mr-2">🔥</span> Hot
+                    </button>
+                    <button class="bg-gradient-to-r from-red-400 to-red-500 hover:from-red-500 hover:to-red-600 
+                        text-white text-lg py-3 px-8 rounded-full flex items-center">
+                        <span class="mr-2">❌</span> Not
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Same Three.js background code as index.html
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.body.appendChild(renderer.domElement);
+
+        // Create torus
+        const geometry = new THREE.TorusGeometry(2, 0.5, 16, 100);
+        const material = new THREE.MeshStandardMaterial({
+            color: '#ff69b4',
+            metalness: 0.8,
+            roughness: 0.2
+        });
+        const torus = new THREE.Mesh(geometry, material);
+        scene.add(torus);
+
+        // Add grid
+        const gridHelper = new THREE.GridHelper(30, 30, '#ff69b4', '#ff69b4');
+        scene.add(gridHelper);
+
+        // Add vertical grid
+        const verticalGrid = new THREE.GridHelper(30, 30, '#ff69b4', '#ff69b4');
+        verticalGrid.rotation.x = Math.PI / 2;
+        scene.add(verticalGrid);
+
+        // Add particles
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 5000;
+        const posArray = new Float32Array(particlesCount * 3);
+
+        for (let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 50;
+        }
+
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.005,
+            color: '#ff69b4'
+        });
+
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+
+        // Add lights
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+
+        const pointLight = new THREE.PointLight(0xffffff, 1);
+        pointLight.position.set(10, 10, 10);
+        scene.add(pointLight);
+
+        // Position camera
+        camera.position.z = 15;
+        camera.position.y = 5;
+        camera.rotation.x = -0.2;
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+
+            torus.rotation.x += 0.01;
+            torus.rotation.y += 0.005;
+
+            gridHelper.rotation.z += 0.001;
+            verticalGrid.rotation.z += 0.001;
+
+            particlesMesh.rotation.y += 0.0005;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Handle resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Mouse movement effect
+        document.addEventListener('mousemove', (event) => {
+            const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+            const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+
+            camera.position.x = mouseX * 2;
+            camera.position.y = 5 + mouseY * 2;
+            camera.lookAt(0, 0, 0);
+        });
+    </script>
+</body>
+
+</html>
